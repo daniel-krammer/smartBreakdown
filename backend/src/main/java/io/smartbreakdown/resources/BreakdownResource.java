@@ -1,25 +1,23 @@
-package org.wildfly.examples;
+package io.smartbreakdown.resources;
 
+import io.smartbreakdown.services.BreakdownService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/")
-public class GettingStartedEndpoint {
+@Path("/breakdown")
+public class BreakdownResource {
 
     @Inject
-    private GettingStartedService service;
+    private BreakdownService service;
 
     @GET
-    @Path("/{name}")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response sayHello(final @PathParam("name") String name) {
-        String response = service.hello(name);
-
+    public Response sayHello() {
+        String response = service.hello();
         return Response.ok(response).build();
     }
 }
