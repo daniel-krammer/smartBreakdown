@@ -185,11 +185,22 @@
             <artifactId>commons-logging-jboss-logging</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
         <!-- deploys the quickstart on root web context -->
-        <finalName>smartbreakdown</finalName>
+        <finalName>api</finalName>
 
         <plugins>
             <!--Configuration of the maven-compiler-plugin -->

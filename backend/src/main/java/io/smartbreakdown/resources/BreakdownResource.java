@@ -5,13 +5,21 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import comparators.BreakdownItemComparator;
+import io.smartbreakdown.models.BreakdownCalculationRequest;
+import io.smartbreakdown.models.BreakdownDifferenceRequest;
 import io.smartbreakdown.models.BreakdownItem;
 import io.smartbreakdown.services.BreakdownService;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 @Path("/breakdown")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class BreakdownResource {
 
     @Inject
@@ -19,20 +27,22 @@ public class BreakdownResource {
 
     @POST
     @Path("/calculate")
-    public SortedSet<BreakdownItem> calculateBreakdown(final double amount) {
-        return service.calculateBreakdown(amount);
+    public List<BreakdownItem> calculateBreakdown(BreakdownCalculationRequest request) {
+        SortedSet<BreakdownItem> result = service.calculateBreakdown(request.getAmount());
+        return result.stream().toList();
     }
 
     @POST
     @Path("/calculate-difference")
-    public SortedSet<BreakdownItem> calculateBreakdownDifference(final List<BreakdownItem> currentBreakdown,
-            List<BreakdownItem> previousBreakdown) {
+    public List<BreakdownItem> calculateBreakdownDifference(BreakdownDifferenceRequest request) {
         SortedSet<BreakdownItem> currentBreakdownSet = new TreeSet<>(new BreakdownItemComparator());
-        currentBreakdownSet.addAll(currentBreakdown);
+        currentBreakdownSet.addAll(request.getCurrentBreakdown()    );
 
         SortedSet<BreakdownItem> previousBreakdownSet = new TreeSet<>(new BreakdownItemComparator());
-        previousBreakdownSet.addAll(previousBreakdown);
+        previousBreakdownSet.addAll(request.getPreviousBreakdown());
 
-        return service.calculateBreakdownDifferences(currentBreakdownSet, previousBreakdownSet);
+        SortedSet<BreakdownItem> result = service.calculateBreakdownDifferences(currentBreakdownSet, previousBreakdownSet);
+
+        return result.stream().toList();
     }
 }
