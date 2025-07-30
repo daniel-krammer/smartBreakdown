@@ -1,3 +1,7 @@
 <app-card>
     <h1>Smart Breakdown</h1>
+    <form class="form-container" [formGroup]="formGroup" (ngSubmit)="onSubmit($event)">
+        <app-euro-input [label]="'Betrag in €'" [control]="formGroup.controls['euroAmount']"></app-euro-input>
+        <button class="submit-button" type="submit" [disabled]="formGroup.invalid">Berechnen</button>
+    </form>
 </app-card>
