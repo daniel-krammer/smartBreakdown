@@ -44,7 +44,8 @@ export class BreakdownService {
             const difference = currentCount - previousCount;
             differences.push({ denomination: currentDenomination, count: difference });
         }
-        return this.sortByDenomination(differences);
+        const sortedDifferences = this.sortByDenomination(differences);
+        return sortedDifferences;
     }
 
     private sortByDenomination(items: BreakdownItem[]): BreakdownItem[] {

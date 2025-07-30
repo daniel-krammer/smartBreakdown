@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BreakdownService } from './breakdown.service';
 import { firstValueFrom } from 'rxjs';
 import { BreakdownItem } from 'src/models/breakdown.model';
+import { BreakdownService } from './breakdown.service';
 
 describe('BreakdownService', () => {
     let service: BreakdownService;
