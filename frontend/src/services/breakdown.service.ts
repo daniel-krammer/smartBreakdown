@@ -12,7 +12,7 @@ export class BreakdownService {
         if (amount < 0) {
             return throwError(() => new Error('Amount cannot be negative'));
         }
-        
+
         // Working with cents to avoid floating point precision issues
         const breakdown: BreakdownItem[] = [];
         let remainingAmountInCents = Math.round(amount * 100);
@@ -30,5 +30,28 @@ export class BreakdownService {
         }
 
         return of(breakdown);
+    }
+
+    calculateBreakdownDifferences(currentBreakdown: BreakdownItem[], previousBreakdown: BreakdownItem[]): BreakdownItem[] {
+        const differences: BreakdownItem[] = [];
+        const currentBreakdownMap: Map<number, number> = this.createDenominationMap(currentBreakdown);
+        const previousBreakdownMap: Map<number, number> = this.createDenominationMap(previousBreakdown);
+        const combinedAffectedDenominations: Set<number> = new Set([...currentBreakdown.map(item => item.denomination), ...previousBreakdown.map(item => item.denomination)]);
+        for (const currentDenomination of combinedAffectedDenominations) {
+            const previousCount = previousBreakdownMap.get(currentDenomination) || 0;
+            const currentCount = currentBreakdownMap.get(currentDenomination) || 0;
+
+            const difference = currentCount - previousCount;
+            differences.push({ denomination: currentDenomination, count: difference });
+        }
+        return this.sortByDenomination(differences);
+    }
+
+    private sortByDenomination(items: BreakdownItem[]): BreakdownItem[] {
+        return items.sort((a, b) => b.denomination - a.denomination);
+    }
+
+    private createDenominationMap(breakdown: BreakdownItem[]): Map<number, number> {
+        return new Map<number, number>(breakdown.map(({denomination, count }) => [denomination, count]));
     }
 } 
