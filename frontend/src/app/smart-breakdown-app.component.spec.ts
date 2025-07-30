@@ -7,7 +7,7 @@ describe('SmartBreakdownAppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SmartBreakdownAppComponent]
+      imports: [SmartBreakdownAppComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SmartBreakdownAppComponent);
