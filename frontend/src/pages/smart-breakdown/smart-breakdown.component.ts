@@ -6,12 +6,13 @@ import { CardComponent } from "src/components/card/card.component";
 import { EuroInputComponent } from "src/components/euro-input/euro.input.component";
 import { ResultTableComponent } from "src/components/result-table/result-table.component";
 import { BreakdownState, BreakdownStateService } from "src/services/breakdown/breakdown-state.service";
-import { BreakdownService } from "src/services/breakdown/breakdown.service";
+import { BreakdownService, CalculationMode } from "src/services/breakdown/breakdown.service";
+import { ɵEmptyOutletComponent } from "@angular/router";
 
 @Component({
     selector: 'app-smart-breakdown',
     standalone: true,
-    imports: [CommonModule, CardComponent, EuroInputComponent, ReactiveFormsModule, ResultTableComponent],
+    imports: [CommonModule, CardComponent, EuroInputComponent, ReactiveFormsModule, ResultTableComponent, ɵEmptyOutletComponent],
     templateUrl: './smart-breakdown.component.html',
     styleUrls: ['./smart-breakdown.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -21,6 +22,7 @@ export class SmartBreakdownComponent {
         euroAmount: new FormControl(0, [Validators.required])
     });
     breakdownState$: Observable<BreakdownState> = this.breakdownStateService.state$;
+    CalculationMode = CalculationMode;
 
     constructor(private breakdownService: BreakdownService, private readonly breakdownStateService: BreakdownStateService) { }
 
@@ -37,5 +39,9 @@ export class SmartBreakdownComponent {
             const differences = await firstValueFrom(this.breakdownService.calculateBreakdownDifferences(breakdown, this.breakdownStateService.getPreviousBreakdown(), this.breakdownStateService.getCalculationMode()));
             this.breakdownStateService.updateBreakdownDifferences(differences);
         }
+    }
+
+    onFrontendToggle($event: Event) {
+        this.breakdownStateService.updateCalculationMode(this.breakdownStateService.getCalculationMode() === CalculationMode.FRONTEND ? CalculationMode.BACKEND : CalculationMode.FRONTEND);
     }
 }

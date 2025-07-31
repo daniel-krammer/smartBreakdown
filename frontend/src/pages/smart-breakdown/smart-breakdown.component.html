@@ -1,5 +1,17 @@
 <app-card>
     <h1>Smart Breakdown</h1>
+    <ng-container *ngIf="breakdownState$ | async as state">
+        <label for="calculationInFrontend">
+            <input 
+            type="checkbox" 
+            id="frontend" 
+            [checked]="state.calculationMode === CalculationMode.FRONTEND"
+            (change)="onFrontendToggle($event)"
+          >
+          <span>Berechnung im Frontend</span>
+        </label>
+    </ng-container>
+
     <form class="form-container" [formGroup]="formGroup" (ngSubmit)="onSubmit($event)">
         <app-euro-input [label]="'Betrag in €'" [control]="formGroup.controls['euroAmount']"></app-euro-input>
         <button class="submit-button" type="submit" [disabled]="formGroup.invalid">Berechnen</button>
