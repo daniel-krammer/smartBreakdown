@@ -13,7 +13,57 @@
     app-card {
         background: white;
         max-width: 500px;
-        padding: 1rem;
+        padding: 0.7rem;
         border-radius: 16px ;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .error-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .error-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .error-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .error-message {
+        text-align: center;
+        font-weight: 600;
+    }
+
+    button {
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+      
+            &:hover {
+              transform: translateY(-1px);
+              box-shadow: 0 5px 14px rgba(0, 0, 0, 0.1);
+            }
+
+            &.retry-button {
+                background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            }
+
+            &.switch-button {
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            }
     }
 }

@@ -1,11 +1,13 @@
 <div class="backend-error-container">
     <app-card>
-        <div class="error-icon">⚠️</div>
-        <div class="error-message">
-            <p>{{ message }}</p>
-            <div class="error-actions">
-                <button (click)="onRetry()">Erneut versuchen</button>
-                <button (click)="onSwitchToFrontend()">Zum Frontend wechseln</button>
+        <div class="error-content">
+            <div class="error-icon">⚠️</div>
+            <div class="error-message">
+                <p>{{ message }}</p>
+                <div class="error-buttons">
+                    <button class="retry-button" (click)="onRetry()">Erneut versuchen</button>
+                    <button class="switch-button" (click)="onSwitchToFrontend()">Zum Frontend wechseln</button>
+                </div>
             </div>
         </div>
     </app-card>
