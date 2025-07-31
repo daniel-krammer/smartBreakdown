@@ -1,0 +1,12 @@
+<div class="backend-error-container">
+    <app-card>
+        <div class="error-icon">⚠️</div>
+        <div class="error-message">
+            <p>{{ message }}</p>
+            <div class="error-actions">
+                <button (click)="onRetry()">Erneut versuchen</button>
+                <button (click)="onSwitchToFrontend()">Zum Frontend wechseln</button>
+            </div>
+        </div>
+    </app-card>
+</div>

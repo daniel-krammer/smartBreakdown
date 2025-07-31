@@ -8,11 +8,12 @@ import { ResultTableComponent } from "src/components/result-table/result-table.c
 import { BreakdownState, BreakdownStateService } from "src/services/breakdown/breakdown-state.service";
 import { BreakdownService, CalculationMode } from "src/services/breakdown/breakdown.service";
 import { ɵEmptyOutletComponent } from "@angular/router";
+import { BackendErrorComponent } from "src/components/backend-error/backend-error.component";
 
 @Component({
     selector: 'app-smart-breakdown',
     standalone: true,
-    imports: [CommonModule, CardComponent, EuroInputComponent, ReactiveFormsModule, ResultTableComponent, ɵEmptyOutletComponent],
+    imports: [CommonModule, CardComponent, EuroInputComponent, ReactiveFormsModule, ResultTableComponent, ɵEmptyOutletComponent, BackendErrorComponent],
     templateUrl: './smart-breakdown.component.html',
     styleUrls: ['./smart-breakdown.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -24,9 +25,20 @@ export class SmartBreakdownComponent {
     breakdownState$: Observable<BreakdownState> = this.breakdownStateService.state$;
     CalculationMode = CalculationMode;
 
+    onSwitchToFrontend = () => {
+        this.breakdownStateService.updateBackendError(null);
+        this.breakdownStateService.updateCalculationMode(CalculationMode.FRONTEND);
+    };
+
+    onRetry = () => {
+        this.breakdownStateService.updateBackendError(null);
+        this.breakdownStateService.updateLoading(true);
+        this.onSubmit(null);
+    };
+
     constructor(private breakdownService: BreakdownService, private readonly breakdownStateService: BreakdownStateService) { }
 
-    async onSubmit($event: Event) {
+    async onSubmit($event: Event | null) {
         this.breakdownStateService.updateLoading(true);
         let euroAmount = this.formGroup.value.euroAmount;
         if (euroAmount) {
@@ -34,11 +46,16 @@ export class SmartBreakdownComponent {
                 // TODO: the euroInputComponent should handle this with better validation
                 const formattedEuroAmount = euroAmount.toString().replace(',', '.');
                 euroAmount = Number(formattedEuroAmount);
+            } try {
+                const breakdown = await firstValueFrom(this.breakdownService.calculateBreakdown(euroAmount, this.breakdownStateService.getCalculationMode()));
+                this.breakdownStateService.updateCurrentBreakdown(breakdown);
+                const differences = await firstValueFrom(this.breakdownService.calculateBreakdownDifferences(breakdown, this.breakdownStateService.getPreviousBreakdown(), this.breakdownStateService.getCalculationMode()));
+                this.breakdownStateService.updateBreakdownDifferences(differences);
+            } catch (error: any) {
+                if (this.breakdownStateService.getCalculationMode() === CalculationMode.BACKEND) {
+                    this.breakdownStateService.updateBackendError({ message: error.message ? error.message : 'Fehler beim Berechnen der Stückelung im Backend' });
+                }
             }
-            const breakdown = await firstValueFrom(this.breakdownService.calculateBreakdown(euroAmount, this.breakdownStateService.getCalculationMode()));
-            this.breakdownStateService.updateCurrentBreakdown(breakdown);
-            const differences = await firstValueFrom(this.breakdownService.calculateBreakdownDifferences(breakdown, this.breakdownStateService.getPreviousBreakdown(), this.breakdownStateService.getCalculationMode()));
-            this.breakdownStateService.updateBreakdownDifferences(differences);
         }
         this.breakdownStateService.updateLoading(false);
     }

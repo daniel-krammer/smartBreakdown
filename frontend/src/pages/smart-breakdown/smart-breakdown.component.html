@@ -20,4 +20,6 @@
                 [breakdownItems]="state.breakdownDifferences"></app-result-table>
         </ng-container>
     </app-card>
+    <app-backend-error *ngIf="state.backendError" [message]="state.backendError.message" [onRetry]="onRetry"
+        [onSwitchToFrontend]="onSwitchToFrontend"></app-backend-error>
 </ng-container>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BreakdownItem } from 'src/models/breakdown.model';
 import { CalculationMode } from './breakdown.service';
+import { BackendError } from 'src/models/backend-error.model';
 
 export interface BreakdownState {
     currentBreakdown: BreakdownItem[];
@@ -10,6 +11,7 @@ export interface BreakdownState {
     initialState: boolean;
     calculationMode: CalculationMode;
     loading: boolean;
+    backendError: BackendError | null;
 }
 
 @Injectable({
@@ -23,6 +25,7 @@ export class BreakdownStateService {
         initialState: true,
         calculationMode: CalculationMode.FRONTEND,
         loading: false,
+        backendError: null
     });
 
     public state$ = this.state.asObservable();
@@ -77,6 +80,14 @@ export class BreakdownStateService {
         this.state.next({
             ...currentState,
             loading: loading
+        });
+    }
+
+    updateBackendError(error: BackendError | null): void {
+        const currentState = this.state.value;
+        this.state.next({
+            ...currentState,
+            backendError: error
         });
     }
 }
