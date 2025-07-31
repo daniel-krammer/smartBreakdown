@@ -6,8 +6,8 @@ import { BreakdownService } from './breakdown.service';
 describe('BreakdownService', () => {
     let service: BreakdownService;
 
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
+    beforeEach(() => {
+        TestBed.configureTestingModule({
             providers: [BreakdownService]
         });
         service = TestBed.inject(BreakdownService);

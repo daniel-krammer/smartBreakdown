@@ -1,5 +1,6 @@
 package io.smartbreakdown.api;
 
+import io.smartbreakdown.filters.CorsFilter;
 import io.smartbreakdown.resources.BreakdownResource;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
@@ -13,6 +14,7 @@ public class SmartBreakdownBackendApplication extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<>();
         classes.add(BreakdownResource.class);
+        classes.add(CorsFilter.class); 
         return classes;
     }
 }

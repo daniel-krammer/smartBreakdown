@@ -28,14 +28,13 @@ export class SmartBreakdownComponent {
         let euroAmount = this.formGroup.value.euroAmount;
         if (euroAmount) {
             if (isNaN(euroAmount)) {
-                // format euroAmount to number
-                // TODO: the euroInputComponent should handle this
+                // TODO: the euroInputComponent should handle this with better validation
                 const formattedEuroAmount = euroAmount.toString().replace(',', '.');
                 euroAmount = Number(formattedEuroAmount);
             }
-            const breakdown = await firstValueFrom(this.breakdownService.calculateBreakdown(euroAmount));
+            const breakdown = await firstValueFrom(this.breakdownService.calculateBreakdown(euroAmount, this.breakdownStateService.getCalculationMode()));
             this.breakdownStateService.updateCurrentBreakdown(breakdown);
-            const differences = this.breakdownService.calculateBreakdownDifferences(breakdown, this.breakdownStateService.getPreviousBreakdown());
+            const differences = await firstValueFrom(this.breakdownService.calculateBreakdownDifferences(breakdown, this.breakdownStateService.getPreviousBreakdown(), this.breakdownStateService.getCalculationMode()));
             this.breakdownStateService.updateBreakdownDifferences(differences);
         }
     }

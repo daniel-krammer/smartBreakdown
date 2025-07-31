@@ -1,18 +1,37 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { EURO_DENOMINATIONS } from 'shared/constants/denominations';
 import { BreakdownItem } from 'src/models/breakdown.model';
+import { BreakdownHttpService } from './breakdown-http.service';
+
+export enum CalculationMode {
+    FRONTEND,
+    BACKEND
+}
 
 @Injectable({
     providedIn: 'root'
 })
 export class BreakdownService {
 
-    calculateBreakdown(amount: number): Observable<BreakdownItem[]> {
-        if (amount < 0) {
-            return throwError(() => new Error('Amount cannot be negative'));
-        }
+    constructor(private breakdownHttpService: BreakdownHttpService) { }
 
+    calculateBreakdown(amount: number, calculationMode: CalculationMode = CalculationMode.FRONTEND): Observable<BreakdownItem[]> {
+        validateAmount(amount);
+
+        if (calculationMode === CalculationMode.BACKEND) {
+            return this.calculateBreakdownBackend(amount);
+        } else {
+            return this.calculateBreakdownFrontend(amount);
+        }
+    }
+
+    calculateBreakdownBackend(amount: number): Observable<BreakdownItem[]> {
+        return this.breakdownHttpService.calculateBreakdown(amount);
+    }
+
+    calculateBreakdownFrontend(amount: number): Observable<BreakdownItem[]> {
         // Working with cents to avoid floating point precision issues
         const breakdown: BreakdownItem[] = [];
         let remainingAmountInCents = Math.round(amount * 100);
@@ -28,11 +47,20 @@ export class BreakdownService {
                 remainingAmountInCents = remainingAmountInCents - (count * denominationInCents);
             }
         }
-
         return of(breakdown);
     }
 
-    calculateBreakdownDifferences(currentBreakdown: BreakdownItem[], previousBreakdown: BreakdownItem[]): BreakdownItem[] {
+    calculateBreakdownDifferences(currentBreakdown: BreakdownItem[], previousBreakdown: BreakdownItem[], calculationMode: CalculationMode = CalculationMode.FRONTEND): Observable<BreakdownItem[]> {
+        if (calculationMode === CalculationMode.BACKEND) {
+            return this.calculateBreakdownDifferencesBackend(currentBreakdown, previousBreakdown);
+        } else {
+            return this.calculateBreakdownDifferencesFrontend(currentBreakdown, previousBreakdown);
+        }
+    }
+    calculateBreakdownDifferencesBackend(currentBreakdown: BreakdownItem[], previousBreakdown: BreakdownItem[]): Observable<BreakdownItem[]> {
+        return this.breakdownHttpService.calculateBreakdownDifferences(currentBreakdown, previousBreakdown);
+    }
+    calculateBreakdownDifferencesFrontend(currentBreakdown: BreakdownItem[], previousBreakdown: BreakdownItem[]): Observable<BreakdownItem[]> {
         const differences: BreakdownItem[] = [];
         const currentBreakdownMap: Map<number, number> = this.createDenominationMap(currentBreakdown);
         const previousBreakdownMap: Map<number, number> = this.createDenominationMap(previousBreakdown);
@@ -45,14 +73,21 @@ export class BreakdownService {
             differences.push({ denomination: currentDenomination, count: difference });
         }
         const sortedDifferences = this.sortByDenomination(differences);
-        return sortedDifferences;
+        return of(sortedDifferences);
     }
+
 
     private sortByDenomination(items: BreakdownItem[]): BreakdownItem[] {
         return items.sort((a, b) => b.denomination - a.denomination);
     }
 
     private createDenominationMap(breakdown: BreakdownItem[]): Map<number, number> {
-        return new Map<number, number>(breakdown.map(({denomination, count }) => [denomination, count]));
+        return new Map<number, number>(breakdown.map(({ denomination, count }) => [denomination, count]));
     }
-} 
+}
+
+function validateAmount(amount: number) {
+    if (amount < 0) {
+        throw new Error('Amount cannot be negative');
+    }
+}

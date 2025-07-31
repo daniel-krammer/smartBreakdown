@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BreakdownItem } from 'src/models/breakdown.model';
+import { CalculationMode } from './breakdown.service';
 
 export interface BreakdownState {
     currentBreakdown: BreakdownItem[];
     previousBreakdown: BreakdownItem[];
     breakdownDifferences: BreakdownItem[];
     initialState: boolean;
+    calculationMode: CalculationMode;
 }
 
 @Injectable({
@@ -17,7 +19,8 @@ export class BreakdownStateService {
         currentBreakdown: [],
         previousBreakdown: [],
         breakdownDifferences: [],
-        initialState: true
+        initialState: true,
+        calculationMode: CalculationMode.FRONTEND
     });
 
     public state$ = this.state.asObservable();
@@ -30,7 +33,7 @@ export class BreakdownStateService {
             ...currentState,
             currentBreakdown: breakdown,
             previousBreakdown: previousBreakdown,
-            initialState: false
+            initialState: false,
         });
     }
 
@@ -40,6 +43,14 @@ export class BreakdownStateService {
             ...currentState,
             breakdownDifferences: differences,
             initialState: false
+        });
+    }
+
+    updateCalculationMode(mode: CalculationMode): void {
+        const currentState = this.state.value;
+        this.state.next({
+            ...currentState,
+            calculationMode: mode
         });
     }
 
@@ -53,5 +64,9 @@ export class BreakdownStateService {
 
     getDifferences(): BreakdownItem[] {
         return this.state.value.breakdownDifferences;
+    }
+
+    getCalculationMode(): CalculationMode {
+        return this.state.value.calculationMode;
     }
 }
