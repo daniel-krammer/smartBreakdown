@@ -36,6 +36,11 @@
     .error-buttons {
         display: flex;
         gap: 1rem;
+        flex-direction: row;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+          }
     }
 
     .error-message {
@@ -52,6 +57,10 @@
             transition: all 0.2s ease;
             padding: 0.8rem 2rem;
             font-size: 1rem;
+
+            @media (max-width: 768px) {
+                padding: 0.5rem 0rem;
+              }
       
             &:hover {
               transform: translateY(-1px);

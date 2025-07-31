@@ -5,6 +5,13 @@ header {
     gap: 1rem;
     padding: 0.5rem 2rem;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    flex-direction: row;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 0rem;
+        padding: 1rem;
+    }
 
     h1 {
         font-size: 1.75rem;
@@ -13,7 +20,7 @@ header {
     }
 
     .header-switch {
-        background: rgba(255,255,255,0.3);
+        background: rgba(255, 255, 255, 0.3);
         padding: 0.5rem 1rem;
         border-radius: 25px;
         color: white;
@@ -21,7 +28,7 @@ header {
 
         &:hover {
             background: rgba(255, 255, 255, 0.35);
-          }
+        }
 
         input[type="checkbox"] {
             accent-color: white;

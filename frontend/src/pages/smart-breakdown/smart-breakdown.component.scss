@@ -40,6 +40,10 @@
       grid-template-columns: 1fr 1fr;
       gap: 2rem;
       margin-top: 1rem;
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
     }
   }
 }
