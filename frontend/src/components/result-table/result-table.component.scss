@@ -22,11 +22,57 @@
             color: #333;
             font-size: 1.1rem;
         }
-    
+
         .amount {
             font-weight: 600;
             color: var(--primary-color);
             font-size: 1.1rem;
+        }
+    }
+
+    .result-table {
+        width: 100%;
+        border-collapse: collapse;
+
+        tr {
+            position: relative;
+            border-bottom: 1px solid #f0f0f0;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            &:nth-child(even) {
+                background-color: rgba(0, 0, 0, 0.02);
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 50%;
+                height: 100%;
+                width: 1px;
+                background-color: #e0e0e0;
+            }
+
+            td {
+                padding: 0.5rem 1rem;
+                font-size: 0.95rem;
+                font-weight: 500;
+                padding-right: 1rem;
+                width: 50%;
+
+                &.denomination {
+                    font-weight: 600;
+                    color: var(--primary-color);
+                    text-align: right;
+                }
+
+                &.count {
+                    text-align: right;
+                }
+            }
         }
     }
 }

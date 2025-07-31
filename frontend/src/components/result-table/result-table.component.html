@@ -1,16 +1,16 @@
 <div class="result-table-container">
+    <h2>{{ title }}</h2>
     <div *ngIf="amountToShow" class="amount-container">
         <span class="amount-label">{{ amountLabel }}</span>
         <span class="amount">{{ amountToShow }} €</span>
     </div>
-    <h2>{{ title }}</h2>
 
     <span *ngIf="breakdownItems.length === 0">Keine Stückelung möglich</span>
     <table class="result-table">
         <thead>
             <tr *ngFor="let breakdownItem of breakdownItems">
-                <td>{{ breakdownItem.denomination }}</td>
-                <td>{{ breakdownItem.count }}</td>
+                <td class="denomination">{{ breakdownItem.denomination }} €</td>
+                <td class="count">{{ breakdownItem.count }}</td>
             </tr>
         </thead>
     </table>
