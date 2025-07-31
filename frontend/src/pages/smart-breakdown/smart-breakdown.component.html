@@ -1,19 +1,25 @@
 <ng-container *ngIf="breakdownState$ | async as state">
     <app-card>
-        <app-header [title]="'Smart Breakdown'" [frontendEnabled]="state.calculationMode === CalculationMode.FRONTEND"></app-header>
+        <app-header [title]="'Smart Breakdown'"
+            [frontendEnabled]="state.calculationMode === CalculationMode.FRONTEND"></app-header>
 
         <form class="form-container" [formGroup]="formGroup" (ngSubmit)="onSubmit($event)">
             <app-euro-input [label]="'Betrag in €'" [control]="formGroup.controls['euroAmount']"></app-euro-input>
-            <button class="submit-button" type="submit" [disabled]="formGroup.invalid || state.loading">Berechnen</button>
+            <button class="submit-button" type="submit"
+                [disabled]="formGroup.invalid || state.loading">Berechnen</button>
         </form>
-        <ng-container *ngIf="!state.loading">
-            <app-result-table *ngIf="!state.initialState" [title]="'Stückelung'"
-                [breakdownItems]="state.currentBreakdown" [amountToShow]="state.currentEuroAmount"></app-result-table>
-            <app-result-table *ngIf="state.breakdownDifferences.length > 0 && state.previousEuroAmount"
-                [title]="'Differenz zu vorheriger Stückelung'"
-                [amountToShow]="state.previousEuroAmount"
-                [breakdownItems]="state.breakdownDifferences"></app-result-table>
-        </ng-container>
+        <div class="result-container" *ngIf="!state.loading">
+            <app-card *ngIf="!state.initialBreakdownState">
+                <app-result-table  [title]="'Stückelung'"
+                    [breakdownItems]="state.currentBreakdown"
+                    [amountToShow]="state.currentEuroAmount"></app-result-table>
+            </app-card>
+            <app-card *ngIf="!state.initialBreakdownState && state.breakdownDifferences.length > 0 && state.previousEuroAmount">
+                <app-result-table 
+                    [title]="'Differenz zu vorheriger Stückelung'" [amountToShow]="state.previousEuroAmount"
+                    [breakdownItems]="state.breakdownDifferences"></app-result-table>
+            </app-card>
+        </div>
     </app-card>
     <app-backend-error *ngIf="state.backendError" [message]="state.backendError.message" [onRetry]="onRetry"
         [onSwitchToFrontend]="onSwitchToFrontend"></app-backend-error>

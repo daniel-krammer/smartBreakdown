@@ -10,7 +10,7 @@ export interface BreakdownState {
     currentBreakdown: BreakdownItem[];
     previousBreakdown: BreakdownItem[];
     breakdownDifferences: BreakdownItem[];
-    initialState: boolean;
+    initialBreakdownState: boolean;
     calculationMode: CalculationMode;
     loading: boolean;
     backendError: BackendError | null;
@@ -26,7 +26,7 @@ export class BreakdownStateService {
         currentBreakdown: [],
         previousBreakdown: [],
         breakdownDifferences: [],
-        initialState: true,
+        initialBreakdownState: true,
         calculationMode: CalculationMode.FRONTEND,
         loading: false,
         backendError: null
@@ -42,7 +42,7 @@ export class BreakdownStateService {
             ...currentState,
             currentBreakdown: breakdown,
             previousBreakdown: previousBreakdown,
-            initialState: false,
+            initialBreakdownState: false,
         });
     }
 
@@ -51,7 +51,7 @@ export class BreakdownStateService {
         this.state.next({
             ...currentState,
             breakdownDifferences: differences,
-            initialState: false
+            initialBreakdownState: false
         });
     }
 
