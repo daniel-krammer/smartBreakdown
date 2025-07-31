@@ -1,0 +1,32 @@
+.result-table-container {
+    h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+        color: #333;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+    }
+
+    .amount-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #f0f8ff;
+        padding: 0.6rem 0.8rem;
+        border-radius: 8px;
+        margin-bottom: 0.75rem;
+        border: 1px solid var(--primary-color);
+
+        .amount-label {
+            font-weight: 500;
+            color: #333;
+            font-size: 1.1rem;
+        }
+    
+        .amount {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+    }
+}

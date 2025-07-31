@@ -16,12 +16,12 @@
             <div class="result-container" *ngIf="!state.loading">
                 <app-card *ngIf="!state.initialBreakdownState">
                     <app-result-table [title]="'Stückelung'" [breakdownItems]="state.currentBreakdown"
-                        [amountToShow]="state.currentEuroAmount"></app-result-table>
+                        [amountToShow]="state.currentEuroAmount" [amountLabel]="'Aktueller Betrag:'"></app-result-table>
                 </app-card>
                 <app-card
                     *ngIf="!state.initialBreakdownState && state.breakdownDifferences.length > 0 && state.previousEuroAmount">
                     <app-result-table [title]="'Differenz zu vorheriger Stückelung'"
-                        [amountToShow]="state.previousEuroAmount"
+                        [amountToShow]="state.previousEuroAmount" [amountLabel]="'Vorheriger Betrag:'"
                         [breakdownItems]="state.breakdownDifferences"></app-result-table>
                 </app-card>
             </div>

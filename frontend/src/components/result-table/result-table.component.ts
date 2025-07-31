@@ -16,4 +16,5 @@ import { BreakdownItem } from "src/models/breakdown.model";
     @Input() title = "";
     @Input() breakdownItems: BreakdownItem[] = [];
     @Input() amountToShow: number | null = null;
+    @Input() amountLabel: string = "Betrag:";
   } 

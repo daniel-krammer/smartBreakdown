@@ -1,6 +1,10 @@
 <div class="result-table-container">
+    <div *ngIf="amountToShow" class="amount-container">
+        <span class="amount-label">{{ amountLabel }}</span>
+        <span class="amount">{{ amountToShow }} €</span>
+    </div>
     <h2>{{ title }}</h2>
-    <span *ngIf="amountToShow">Betrag: {{ amountToShow }} €</span>
+
     <span *ngIf="breakdownItems.length === 0">Keine Stückelung möglich</span>
     <table class="result-table">
         <thead>
