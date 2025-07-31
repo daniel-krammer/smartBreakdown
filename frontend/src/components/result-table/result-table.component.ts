@@ -15,4 +15,5 @@ import { BreakdownItem } from "src/models/breakdown.model";
   export class ResultTableComponent {
     @Input() title = "";
     @Input() breakdownItems: BreakdownItem[] = [];
+    @Input() amountToShow: number | null = null;
   } 

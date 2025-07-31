@@ -9,11 +9,12 @@ import { BreakdownState, BreakdownStateService } from "src/services/breakdown/br
 import { BreakdownService, CalculationMode } from "src/services/breakdown/breakdown.service";
 import { ɵEmptyOutletComponent } from "@angular/router";
 import { BackendErrorComponent } from "src/components/backend-error/backend-error.component";
+import { HeaderComponent } from "src/components/header/header.component";
 
 @Component({
     selector: 'app-smart-breakdown',
     standalone: true,
-    imports: [CommonModule, CardComponent, EuroInputComponent, ReactiveFormsModule, ResultTableComponent, ɵEmptyOutletComponent, BackendErrorComponent],
+    imports: [CommonModule, CardComponent, EuroInputComponent, ReactiveFormsModule, ResultTableComponent, ɵEmptyOutletComponent, BackendErrorComponent, HeaderComponent],
     templateUrl: './smart-breakdown.component.html',
     styleUrls: ['./smart-breakdown.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -47,6 +48,8 @@ export class SmartBreakdownComponent {
                 const formattedEuroAmount = euroAmount.toString().replace(',', '.');
                 euroAmount = Number(formattedEuroAmount);
             } try {
+                this.breakdownStateService.updatePreviousEuroAmount(this.breakdownStateService.getCurrentEuroAmount());
+                this.breakdownStateService.updateCurrentEuroAmount(euroAmount);
                 const breakdown = await firstValueFrom(this.breakdownService.calculateBreakdown(euroAmount, this.breakdownStateService.getCalculationMode()));
                 this.breakdownStateService.updateCurrentBreakdown(breakdown);
                 const differences = await firstValueFrom(this.breakdownService.calculateBreakdownDifferences(breakdown, this.breakdownStateService.getPreviousBreakdown(), this.breakdownStateService.getCalculationMode()));

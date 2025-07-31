@@ -5,6 +5,8 @@ import { CalculationMode } from './breakdown.service';
 import { BackendError } from 'src/models/backend-error.model';
 
 export interface BreakdownState {
+    currentEuroAmount: number;
+    previousEuroAmount: number | null;
     currentBreakdown: BreakdownItem[];
     previousBreakdown: BreakdownItem[];
     breakdownDifferences: BreakdownItem[];
@@ -19,6 +21,8 @@ export interface BreakdownState {
 })
 export class BreakdownStateService {
     private state = new BehaviorSubject<BreakdownState>({
+        currentEuroAmount: 0,
+        previousEuroAmount: null,
         currentBreakdown: [],
         previousBreakdown: [],
         breakdownDifferences: [],
@@ -89,5 +93,29 @@ export class BreakdownStateService {
             ...currentState,
             backendError: error
         });
+    }
+
+    updateCurrentEuroAmount(euroAmount: number): void {
+        const currentState = this.state.value;
+        this.state.next({
+            ...currentState,
+            currentEuroAmount: euroAmount
+        });
+    }
+
+    updatePreviousEuroAmount(euroAmount: number): void {
+        const currentState = this.state.value;
+        this.state.next({
+            ...currentState,
+            previousEuroAmount: euroAmount
+        });
+    }
+
+    getCurrentEuroAmount(): number {
+        return this.state.value.currentEuroAmount;
+    }
+
+    getPreviousEuroAmount(): number | null {
+        return this.state.value.previousEuroAmount;
     }
 }

@@ -1,12 +1,6 @@
 <ng-container *ngIf="breakdownState$ | async as state">
     <app-card>
-        <h1>Smart Breakdown</h1>
-
-        <label for="calculationInFrontend">
-            <input type="checkbox" id="frontend" [checked]="state.calculationMode === CalculationMode.FRONTEND"
-                (change)="onFrontendToggle($event)">
-            <span>Berechnung im Frontend</span>
-        </label>
+        <app-header [title]="'Smart Breakdown'" [frontendEnabled]="state.calculationMode === CalculationMode.FRONTEND"></app-header>
 
         <form class="form-container" [formGroup]="formGroup" (ngSubmit)="onSubmit($event)">
             <app-euro-input [label]="'Betrag in €'" [control]="formGroup.controls['euroAmount']"></app-euro-input>
@@ -14,9 +8,10 @@
         </form>
         <ng-container *ngIf="!state.loading">
             <app-result-table *ngIf="!state.initialState" [title]="'Stückelung'"
-                [breakdownItems]="state.currentBreakdown"></app-result-table>
-            <app-result-table *ngIf="state.breakdownDifferences.length > 0"
+                [breakdownItems]="state.currentBreakdown" [amountToShow]="state.currentEuroAmount"></app-result-table>
+            <app-result-table *ngIf="state.breakdownDifferences.length > 0 && state.previousEuroAmount"
                 [title]="'Differenz zu vorheriger Stückelung'"
+                [amountToShow]="state.previousEuroAmount"
                 [breakdownItems]="state.breakdownDifferences"></app-result-table>
         </ng-container>
     </app-card>
