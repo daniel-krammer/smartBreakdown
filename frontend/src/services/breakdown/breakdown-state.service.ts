@@ -9,6 +9,7 @@ export interface BreakdownState {
     breakdownDifferences: BreakdownItem[];
     initialState: boolean;
     calculationMode: CalculationMode;
+    loading: boolean;
 }
 
 @Injectable({
@@ -20,7 +21,8 @@ export class BreakdownStateService {
         previousBreakdown: [],
         breakdownDifferences: [],
         initialState: true,
-        calculationMode: CalculationMode.FRONTEND
+        calculationMode: CalculationMode.FRONTEND,
+        loading: false,
     });
 
     public state$ = this.state.asObservable();
@@ -68,5 +70,13 @@ export class BreakdownStateService {
 
     getCalculationMode(): CalculationMode {
         return this.state.value.calculationMode;
+    }
+
+    updateLoading(loading: boolean): void {
+        const currentState = this.state.value;
+        this.state.next({
+            ...currentState,
+            loading: loading
+        });
     }
 }

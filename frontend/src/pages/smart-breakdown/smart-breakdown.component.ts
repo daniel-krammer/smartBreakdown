@@ -27,6 +27,7 @@ export class SmartBreakdownComponent {
     constructor(private breakdownService: BreakdownService, private readonly breakdownStateService: BreakdownStateService) { }
 
     async onSubmit($event: Event) {
+        this.breakdownStateService.updateLoading(true);
         let euroAmount = this.formGroup.value.euroAmount;
         if (euroAmount) {
             if (isNaN(euroAmount)) {
@@ -39,6 +40,7 @@ export class SmartBreakdownComponent {
             const differences = await firstValueFrom(this.breakdownService.calculateBreakdownDifferences(breakdown, this.breakdownStateService.getPreviousBreakdown(), this.breakdownStateService.getCalculationMode()));
             this.breakdownStateService.updateBreakdownDifferences(differences);
         }
+        this.breakdownStateService.updateLoading(false);
     }
 
     onFrontendToggle($event: Event) {

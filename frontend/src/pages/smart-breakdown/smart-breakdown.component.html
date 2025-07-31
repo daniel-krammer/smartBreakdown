@@ -1,25 +1,23 @@
-<app-card>
-    <h1>Smart Breakdown</h1>
-    <ng-container *ngIf="breakdownState$ | async as state">
-        <label for="calculationInFrontend">
-            <input 
-            type="checkbox" 
-            id="frontend" 
-            [checked]="state.calculationMode === CalculationMode.FRONTEND"
-            (change)="onFrontendToggle($event)"
-          >
-          <span>Berechnung im Frontend</span>
-        </label>
-    </ng-container>
+<ng-container *ngIf="breakdownState$ | async as state">
+    <app-card>
+        <h1>Smart Breakdown</h1>
 
-    <form class="form-container" [formGroup]="formGroup" (ngSubmit)="onSubmit($event)">
-        <app-euro-input [label]="'Betrag in €'" [control]="formGroup.controls['euroAmount']"></app-euro-input>
-        <button class="submit-button" type="submit" [disabled]="formGroup.invalid">Berechnen</button>
-    </form>
-    <ng-container *ngIf="breakdownState$ | async as state">
-        <app-result-table *ngIf="!state.initialState" [title]="'Stückelung'"
-            [breakdownItems]="state.currentBreakdown"></app-result-table>
-        <app-result-table *ngIf="state.breakdownDifferences.length > 0" [title]="'Differenz zu vorheriger Stückelung'"
-            [breakdownItems]="state.breakdownDifferences"></app-result-table>
-    </ng-container>
-</app-card>
+        <label for="calculationInFrontend">
+            <input type="checkbox" id="frontend" [checked]="state.calculationMode === CalculationMode.FRONTEND"
+                (change)="onFrontendToggle($event)">
+            <span>Berechnung im Frontend</span>
+        </label>
+
+        <form class="form-container" [formGroup]="formGroup" (ngSubmit)="onSubmit($event)">
+            <app-euro-input [label]="'Betrag in €'" [control]="formGroup.controls['euroAmount']"></app-euro-input>
+            <button class="submit-button" type="submit" [disabled]="formGroup.invalid || state.loading">Berechnen</button>
+        </form>
+        <ng-container *ngIf="!state.loading">
+            <app-result-table *ngIf="!state.initialState" [title]="'Stückelung'"
+                [breakdownItems]="state.currentBreakdown"></app-result-table>
+            <app-result-table *ngIf="state.breakdownDifferences.length > 0"
+                [title]="'Differenz zu vorheriger Stückelung'"
+                [breakdownItems]="state.breakdownDifferences"></app-result-table>
+        </ng-container>
+    </app-card>
+</ng-container>
