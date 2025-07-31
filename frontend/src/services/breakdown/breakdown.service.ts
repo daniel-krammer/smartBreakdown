@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { EURO_DENOMINATIONS } from 'shared/constants/denominations';
+import { EURO_DENOMINATIONS } from 'src/constants/denominations';
 import { BreakdownItem } from 'src/models/breakdown.model';
 import { BreakdownHttpService } from './breakdown-http.service';
 
