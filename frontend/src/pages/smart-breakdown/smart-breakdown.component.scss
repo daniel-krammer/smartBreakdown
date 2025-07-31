@@ -1,10 +1,15 @@
+.smart-breakdown-container {
+  margin: 0 auto;
+}
+
+
 .form-container {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 
   .submit-button {
-    background: blue;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: #fff;
     font-weight: 600;
     border: none;

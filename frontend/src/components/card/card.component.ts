@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
 @Component({
     selector: 'app-card',
@@ -10,4 +10,5 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
     changeDetection: ChangeDetectionStrategy.OnPush
   })
   export class CardComponent {
+    @Input() variant: 'default' | 'main' = 'default';
   } 

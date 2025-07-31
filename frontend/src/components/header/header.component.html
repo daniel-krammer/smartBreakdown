@@ -1,8 +1,9 @@
 <header>
     <h1>{{ title }}</h1>
-    <label for="calculationInFrontend">
-        <input type="checkbox" id="frontend" [checked]="frontendEnabled"
-            (change)="onFrontendToggle($event)">
-        <span>Berechnung im Frontend</span>
-    </label>
-  </header>
+    <div class="header-switch">
+        <label for="calculationInFrontend" class="header-switch-label">
+            <input type="checkbox" id="calculationInFrontend" [checked]="frontendEnabled" (change)="onFrontendToggle($event)">
+            <span>Berechnung im Frontend</span>
+        </label>
+    </div>
+</header>

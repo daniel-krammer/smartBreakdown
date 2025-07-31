@@ -1,0 +1,36 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+
+    h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: white
+    }
+
+    .header-switch {
+        background: rgba(255,255,255,0.3);
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        color: white;
+        cursor: pointer;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.35);
+          }
+
+        input[type="checkbox"] {
+            accent-color: white;
+            cursor: pointer;
+        }
+
+        .header-switch-label {
+            cursor: pointer;
+            font-weight: 500;
+        }
+    }
+}
