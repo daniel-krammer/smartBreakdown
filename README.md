@@ -1,10 +1,12 @@
 # Smart Breakdown
 Smart Breakdown is a responsive web app that breaks down euro amounts into the fewest possible coins and notes, always using the largest denominations first. It features a mode toggle for frontend or backend calculations and visually compares the result with the previous result
 
+## Prerequisites
+This project requires Java 17+, Node.js 18+ and Maven 3.6+. The application uses Angular 14 for the frontend and Jakarta EE 10 for the backend REST API.
+
 ## Project Structure
 #### frontend --> Angular project
 #### backend --> Java EE project
-
 
 ## Frontend
 ### Build the frontend
