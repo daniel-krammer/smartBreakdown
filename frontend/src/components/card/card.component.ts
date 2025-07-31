@@ -10,5 +10,5 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
     changeDetection: ChangeDetectionStrategy.OnPush
   })
   export class CardComponent {
-    @Input() variant: 'default' | 'main' = 'default';
+    @Input() variant: 'default' | 'main' | 'form' = 'default';
   } 

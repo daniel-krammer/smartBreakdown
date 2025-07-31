@@ -1,16 +1,23 @@
 .card {
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     border: 1px solid #e0e0e0;
     margin: 0 auto;
     overflow: hidden;
 
-    &.main {
+    &.card-main {
+        border-radius: 16px;
         max-width: 900px;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     }
 
-    &.default {
+    &.card-default {
         padding: 1rem;
+    }
+
+    &.card-form {
+        background: #f9f9f9;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
     }
 }
