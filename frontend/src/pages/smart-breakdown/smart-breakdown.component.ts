@@ -7,14 +7,13 @@ import { EuroInputComponent } from "src/components/euro-input/euro.input.compone
 import { ResultTableComponent } from "src/components/result-table/result-table.component";
 import { BreakdownState, BreakdownStateService } from "src/services/breakdown/breakdown-state.service";
 import { BreakdownService, CalculationMode } from "src/services/breakdown/breakdown.service";
-import { ɵEmptyOutletComponent } from "@angular/router";
 import { BackendErrorComponent } from "src/components/backend-error/backend-error.component";
 import { HeaderComponent } from "src/components/header/header.component";
 
 @Component({
     selector: 'app-smart-breakdown',
     standalone: true,
-    imports: [CommonModule, CardComponent, EuroInputComponent, ReactiveFormsModule, ResultTableComponent, ɵEmptyOutletComponent, BackendErrorComponent, HeaderComponent],
+    imports: [CommonModule, CardComponent, EuroInputComponent, ReactiveFormsModule, ResultTableComponent, BackendErrorComponent, HeaderComponent],
     templateUrl: './smart-breakdown.component.html',
     styleUrls: ['./smart-breakdown.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -47,7 +46,8 @@ export class SmartBreakdownComponent {
                 // TODO: the euroInputComponent should handle this with better validation
                 const formattedEuroAmount = euroAmount.toString().replace(',', '.');
                 euroAmount = Number(formattedEuroAmount);
-            } try {
+            }
+            try {
                 this.breakdownStateService.updatePreviousEuroAmount(this.breakdownStateService.getCurrentEuroAmount());
                 this.breakdownStateService.updateCurrentEuroAmount(euroAmount);
                 const breakdown = await firstValueFrom(this.breakdownService.calculateBreakdown(euroAmount, this.breakdownStateService.getCalculationMode()));

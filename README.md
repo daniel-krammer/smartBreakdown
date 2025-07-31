@@ -10,21 +10,21 @@ This project requires Java 17+, Node.js 18+ and Maven 3.6+. The application uses
 
 ## Frontend
 ### Build the frontend
-cd frontend
+cd frontend  
 npm install
 
 ### Run frontend
-ng serve
+ng serve  
 The frontend will be served on http://localhost:4200/smartbreakdown
 
 ## Backend
 ### Build the backend and run wildfly server with maven
-cd backend
-mvn clean package wildfly:run
+cd backend  
+mvn clean package wildfly:run  
 The backend will listen on http://localhost:8080/api
 
 ### OR build the project and deploy the war to your desired server
-cd backend
-mvn clean package
-e.g. for wildfly:
+cd backend  
+mvn clean package  
+e.g. for wildfly:  
 cp target/SmartChangeBackend.war <wildfly_directory_path>/standalone/deployments
