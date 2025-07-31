@@ -17,4 +17,5 @@ import { BreakdownItem } from "src/models/breakdown.model";
     @Input() breakdownItems: BreakdownItem[] = [];
     @Input() amountToShow: number | null = null;
     @Input() amountLabel: string = "Betrag:";
+    @Input() variant: "breakdown" | "difference" = "breakdown";
   } 

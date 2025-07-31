@@ -63,7 +63,7 @@ export class SmartBreakdownComponent {
         this.breakdownStateService.updateLoading(false);
     }
 
-    onFrontendToggle($event: Event) {
-        this.breakdownStateService.updateCalculationMode(this.breakdownStateService.getCalculationMode() === CalculationMode.FRONTEND ? CalculationMode.BACKEND : CalculationMode.FRONTEND);
+    onFrontendToggle(useFrontend: boolean) {
+        this.breakdownStateService.updateCalculationMode(useFrontend ? CalculationMode.FRONTEND : CalculationMode.BACKEND);
     }
 }

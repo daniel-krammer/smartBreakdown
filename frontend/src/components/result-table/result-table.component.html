@@ -10,8 +10,16 @@
         <thead>
             <tr *ngFor="let breakdownItem of breakdownItems">
                 <td class="denomination">{{ breakdownItem.denomination }} €</td>
-                <td class="count">{{ breakdownItem.count }}</td>
+                <ng-container *ngTemplateOutlet="variant === 'breakdown' ? breakdown : difference; context: { count: breakdownItem.count }"></ng-container>
             </tr>
         </thead>
     </table>
 </div>
+
+<ng-template #breakdown let-count="count">
+    <td class="count">{{ count }}</td>
+</ng-template>
+
+<ng-template #difference let-count="count">
+    <td class="count" [ngClass]="{'positive': count > 0, 'negative': count < 0, 'neutral': count === 0}">{{ count > 0 ? '+' : '' }}{{ count }}</td>
+</ng-template>
